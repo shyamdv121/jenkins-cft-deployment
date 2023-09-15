@@ -30,14 +30,3 @@ pipeline {
             }
         }
     }
-    
-    post {
-        always {
-            // Clean up
-            script {
-                // Delete any unnecessary resources or perform post-deployment tasks if needed
-                // Example: aws cloudformation delete-stack --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default
-            }
-        }
-    }
-}
