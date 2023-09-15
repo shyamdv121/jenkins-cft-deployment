@@ -2,8 +2,7 @@ pipeline {
     agent any
     
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AKIASWQ2MOSLHMBWMJAG')
-        AWS_SECRET_ACCESS_KEY = credentials('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')
+        withAWS(credentials: 'jenkins-aws-creds', region: 'ap-south-1')
         AWS_DEFAULT_REGION = 'ap-south-1' // Change this to your desired AWS region
         STACK_NAME = 's3 creation from jenkins'
         GITHUB_REPO = 'https://github.com/shyamdv121/jenkins-cft-deployment.git' // Replace with your GitHub repository URL
