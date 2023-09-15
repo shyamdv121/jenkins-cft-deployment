@@ -1,18 +1,43 @@
 pipeline {
     agent any
-
+    
     environment {
-        AWS_DEFAULT_REGION = 'ap-south-1'
-        AWS_ACCESS_KEY_ID     = credentials('AKIASWQ2MOSLHMBWMJAG')
+        AWS_ACCESS_KEY_ID = credentials('AKIASWQ2MOSLHMBWMJAG')
         AWS_SECRET_ACCESS_KEY = credentials('f5mASSzxaHXc5Q+NZKsiG0jir8k9bKPzZgf07IFF')
+        AWS_DEFAULT_REGION = 'ap-south-1' // Change this to your desired AWS region
+        STACK_NAME = 's3 creation from jenkins'
+        GITHUB_REPO = 'https://github.com/shyamdv121/jenkins-cft-deployment.git' // Replace with your GitHub repository URL
+        GITHUB_BRANCH = 'main' // Replace with the desired branch
+        TEMPLATE_FILE = 'jenkinsfile' // Replace with the path to your CloudFormation template file
     }
-
+    
     stages {
-
-        stage('Submit Stack') {
+        stage('Checkout Code') {
             steps {
-            sh "aws cloudformation create-stack --stack-name s3bucket --template-body file://s3cft.json --region 'ap-south-1'"
-              }
-             }
+                checkout([$class: 'GitSCM', branches: [[name: "${GITHUB_BRANCH}"]], userRemoteConfigs: [[url: "${GITHUB_REPO}"]]])
+            }
         }
+        
+        stage('Deploy CloudFormation') {
+            steps {
+                script {
+                    // Update the CloudFormation stack
+                    sh "aws cloudformation update-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile default"
+                    
+                    // Wait for the CloudFormation stack update to complete
+                    sh "aws cloudformation wait stack-update-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default"
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Clean up
+            script {
+                // Delete any unnecessary resources or perform post-deployment tasks if needed
+                // Example: aws cloudformation delete-stack --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default
+            }
+        }
+    }
 }
