@@ -21,10 +21,10 @@ pipeline {
             steps {
                 script {
                     // Update the CloudFormation stack
-                    sh "aws cloudformation update-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile default"
+                    sh "aws cloudformation create-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile default"
                     
                     // Wait for the CloudFormation stack update to complete
-                    sh "aws cloudformation wait stack-update-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default"
+                    sh "aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default"
                 }
             }
         }
