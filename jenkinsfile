@@ -1,10 +1,18 @@
 pipeline {
     agent any
+
+    environment {
+        AWS_DEFAULT_REGION = 'ap-south-1'
+        AWS_ACCESS_KEY_ID     = credentials('AKIASWQ2MOSLHMBWMJAG')
+        AWS_SECRET_ACCESS_KEY = credentials('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')
+    }
+
     stages {
+
         stage('Submit Stack') {
             steps {
             sh "aws cloudformation create-stack --stack-name s3bucket --template-body file://s3cft.json --region 'ap-south-1'"
               }
              }
-            }
-            }
+        }
+}
