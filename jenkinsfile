@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_CREDENTIALS = 'jenkins-aws-creds'
         AWS_DEFAULT_REGION = 'ap-south-1' // Change this to your desired AWS region
-        STACK_NAME = 's3 creation from jenkins'
+        STACK_NAME = 's3-creation-from-jenkins'
         GITHUB_REPO = 'https://github.com/shyamdv121/jenkins-cft-deployment.git' // Replace with your GitHub repository URL
         GITHUB_BRANCH = 'main' // Replace with the desired branch
         TEMPLATE_FILE = 'jenkinsfile' // Replace with the path to your CloudFormation template file
