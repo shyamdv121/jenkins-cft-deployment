@@ -21,10 +21,10 @@ pipeline {
                    withAWS(credentials: 'jenkins-aws-creds', region: 'us-east-1') {
                 script {
                     // Update the CloudFormation stack
-                    sh "aws cloudformation create-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile ec2-user"
+                    sh "aws cloudformation create-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile jenkins-aws-creds"
                     
                     // Wait for the CloudFormation stack update to complete
-                    sh "aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile ec2-user"
+                    sh "aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile jenkins-aws-creds"
                 }
             }
          }
