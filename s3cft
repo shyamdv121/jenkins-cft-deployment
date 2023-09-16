@@ -8,7 +8,7 @@
     "Outputs": {
         "BucketName": {
             "Value": {
-                "Ref": "S3Bucket121121dv"
+                "Ref": "S3Bucket"
             },
             "Description": "shyamdvss3bcktsmpl"
         }
