@@ -27,6 +27,7 @@ pipeline {
                     sh "aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME} --region ${AWS_DEFAULT_REGION} --profile default"
                 }
             }
-        }
-    }
+         }
+     }
+  }
 }
