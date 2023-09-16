@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     environment {
-        AWS_CREDENTIALS = 'jenkins-aws-creds'
         AWS_DEFAULT_REGION = 'ap-south-1' // Change this to your desired AWS region
         STACK_NAME = 's3-creation-from-jenkins'
         GITHUB_REPO = 'https://github.com/shyamdv121/jenkins-cft-deployment.git' // Replace with your GitHub repository URL
@@ -19,6 +18,7 @@ pipeline {
         
         stage('Deploy CloudFormation') {
             steps {
+                   withAWS(credentials: 'jenkins-aws-creds', region: 'us-east-1') {
                 script {
                     // Update the CloudFormation stack
                     sh "aws cloudformation create-stack --stack-name ${STACK_NAME} --template-body file://${TEMPLATE_FILE} --capabilities CAPABILITY_IAM --region ${AWS_DEFAULT_REGION} --profile sreeram"
